@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ include file="/common/include.jsp"%>  
+<%@ include file="/common/include.jsp"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>  
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -250,7 +251,7 @@
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="${ctx}/images/user2-160x160.jpg" class="user-image" alt="User Image" />
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs"><shiro:principal property="username" /></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
@@ -279,7 +280,7 @@
                       <a href="#" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">退出</a>
+                      <a href="${ctx}/logout" class="btn btn-default btn-flat">退出</a>
                     </div>
                   </li>
                 </ul>
@@ -324,21 +325,18 @@
                 <i class="fa fa-dashboard"></i> <span>用户管理</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                <li><a href="${ctx}/manage/user"><i class="fa fa-circle-o"></i> 用户列表</a></li>
               </ul>
             </li>
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-files-o"></i>
-                <span>Layout Options</span>
-                <span class="label label-primary pull-right">4</span>
+                <span>权限管理</span>
+                <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> 权限列表</a></li>
+                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> 角色列表</a></li>
               </ul>
             </li>
             <li>
@@ -458,16 +456,12 @@
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <section class="content-header">
-          <h1>
-            Dashboard
-            <small>Control panel</small>
-          </h1>
+        <!-- <section class="content-header">
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
             <li class="active">Dashboard</li>
           </ol>
-        </section>
+        </section> -->
         
         <!-- Main content -->
         <section class="content">

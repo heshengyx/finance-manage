@@ -4,11 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/manage")
-public class ManageController extends BaseController {
+@RequestMapping("/manage/user")
+public class UserManageController extends BaseController {
 
 	@RequestMapping("")
 	public String page() {
-		return "index";
+		return "user";
 	}
 }
