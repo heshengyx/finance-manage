@@ -682,6 +682,7 @@
     <!-- <script src="dist/js/pages/dashboard.js" type="text/javascript"></script> -->
     <!-- AdminLTE for demo purposes -->
     <%-- <script src="${ctx}/js/demo.js" type="text/javascript"></script> --%>
+    <sitemesh:write property="jscript" />
   </body>
 </html>
 
