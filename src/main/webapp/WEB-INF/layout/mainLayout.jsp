@@ -22,7 +22,7 @@
     <!-- iCheck -->
     <!-- <link href="plugins/iCheck/flat/blue.css" rel="stylesheet" type="text/css" /> -->
     <!-- Morris chart -->
-    <link href="${ctx}/plugins/morris/morris.css" rel="stylesheet" type="text/css" />
+    <%-- <link href="${ctx}/plugins/morris/morris.css" rel="stylesheet" type="text/css" /> --%>
     <!-- jvectormap -->
     <!-- <link href="plugins/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" /> -->
     <!-- Date Picker -->
@@ -657,7 +657,7 @@
     <script src="${ctx}/js/bootstrap.min.js" type="text/javascript"></script>
     <!-- Morris.js charts -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script> -->
-    <script src="${ctx}/plugins/morris/morris.min.js" type="text/javascript"></script>
+    <%-- <script src="${ctx}/plugins/morris/morris.min.js" type="text/javascript"></script> --%>
     <!-- Sparkline -->
     <%-- <script src="${ctx}/plugins/sparkline/jquery.sparkline.min.js" type="text/javascript"></script> --%>
     <!-- jvectormap -->
@@ -675,7 +675,7 @@
     <!-- Slimscroll -->
     <!-- <script src="plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script> -->
     <!-- FastClick -->
-    <script src="${ctx}/plugins/fastclick/fastclick.min.js" type="text/javascript"></script>
+    <%-- <script src="${ctx}/plugins/fastclick/fastclick.min.js" type="text/javascript"></script> --%>
     <!-- AdminLTE App -->
     <script src="${ctx}/js/app.min.js" type="text/javascript"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
