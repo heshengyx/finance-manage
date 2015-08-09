@@ -11,14 +11,14 @@ import com.myself.common.message.JsonResult;
 import com.myself.finance.entity.User;
 import com.myself.finance.page.IPage;
 import com.myself.finance.param.UserQueryParam;
-import com.myself.finance.service.UserService;
+import com.myself.finance.service.IUserService;
 
 @Controller
 @RequestMapping("/manage/user")
 public class UserManageController extends BaseController {
 
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 	
 	@RequestMapping("")
 	public String page() {
