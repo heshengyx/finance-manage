@@ -138,10 +138,15 @@
 	<script src="${ctx}/plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
 	<script src="${ctx}/plugins/daterangepicker/moment.min.js" type="text/javascript"></script>
 	<script src="${ctx}/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
-	<script src="${ctx}/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
 	<script>
 	$(document).ready(function() {
-		$('#inputDaterange').daterangepicker();
+		$('#inputDaterange').daterangepicker({
+			"locale": {
+				"format": "YYYY-MM-DD",
+				"applyLabel": "确定",
+				"cancelLabel": "取消"
+			}
+		});
 		var t = $('#table-list').DataTable({
     		"language": {
     			"processing": "处理中...",
