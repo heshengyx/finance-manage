@@ -4,7 +4,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8">
-    <title>用户列表</title>
+    <title>权限列表</title>
     <link href="${ctx}/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="${ctx}/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
     <link href="${ctx}/plugins/validator/bootstrapValidator.min.css" rel="stylesheet" type="text/css" />
@@ -47,11 +47,11 @@
           
     <div class="box box-primary">
       <div class="box-header with-border">
-        <h3 class="box-title">用户列表</h3>
+        <h3 class="box-title">权限列表</h3>
         <div class="box-tools pull-right">
           <form class="form-inline">
 			  <div class="form-group form-group-sm">
-			    <label class="control-label" for="inputUsername">用户名称</label>
+			    <label class="control-label" for="inputUsername">权限名称</label>
 			    <input type="text" class="form-control" id="inputUsername">
 			  </div>
 			  <div class="form-group form-group-sm">
@@ -67,7 +67,7 @@
           <thead>
 	        <tr>
 	          <th width="10">#</th>
-	          <th>用户名称</th>
+	          <th>权限名称</th>
 	          <th width="110">创建时间</th>
 	          <th width="50"></th>
 	        </tr>
@@ -174,7 +174,7 @@
     		"processing": true,
             "serverSide": true,
             "ajax": {
-				"url": "${ctx}/manage/user/list",
+				"url": "${ctx}/manage/permission/list",
 				"type": "POST"
 			},
 			"order": [[ 1, "desc" ]],
@@ -204,7 +204,7 @@
 			],
 			"columns": [
 	            { "data": null },
-	            { "data": "username" },
+	            { "data": "name" },
 	            { "data": null },
 	            { "data": null }
 	        ]

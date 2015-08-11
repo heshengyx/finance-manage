@@ -53,9 +53,43 @@ public class UserManageController extends BaseController {
 		User data = null;
 		try {
 			data = userService.getData(param);
-			String s = null;
-			s.toString();
 			jMessage.setData(data);
+		} catch (Exception e) {
+			jMessage.setCode(JsonMessage.ERROR_CODE);
+			if (e instanceof ServiceException) {
+				jMessage.setMessage(e.getMessage());
+			} else {
+				jMessage.setMessage("系统异常");
+			}
+			logger.error(jMessage.getMessage(), e);
+		}
+		return jMessage;
+	}
+	
+	@RequestMapping("/update")
+	@ResponseBody
+	public Object update(UserParam param) {
+		JsonMessage jMessage = new JsonMessage();
+		try {
+			userService.update(param);
+		} catch (Exception e) {
+			jMessage.setCode(JsonMessage.ERROR_CODE);
+			if (e instanceof ServiceException) {
+				jMessage.setMessage(e.getMessage());
+			} else {
+				jMessage.setMessage("系统异常");
+			}
+			logger.error(jMessage.getMessage(), e);
+		}
+		return jMessage;
+	}
+	
+	@RequestMapping("/delete")
+	@ResponseBody
+	public Object delete(UserParam param) {
+		JsonMessage jMessage = new JsonMessage();
+		try {
+			userService.delete(param);
 		} catch (Exception e) {
 			jMessage.setCode(JsonMessage.ERROR_CODE);
 			if (e instanceof ServiceException) {
