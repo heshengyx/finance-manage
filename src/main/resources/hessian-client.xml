@@ -15,12 +15,12 @@
        	</property>
     </bean>-->
     
-    <bean id="userClient" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+    <bean id="permissionServiceClient" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
 		<property name="serviceUrl">  
-			<value>http://localhost:9080/hessian/userService</value>   
+			<value>http://localhost:9080/hessian/permissionService</value>   
         </property>   
         <property name="serviceInterface">  
-            <value>com.myself.finance.service.UserService</value>  
+            <value>com.myself.finance.service.IPermissionService</value>  
        	</property>
     </bean>
 </beans>

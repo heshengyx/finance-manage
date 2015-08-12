@@ -232,23 +232,7 @@
 		                table.ajax.reload();
 					}
 			    }, 'json');
-            },
-			fields: {
-				username: {
-                    validators: {
-                        notEmpty: {
-                            message: '用户名不能为空'
-                        }
-                    }
-                },
-                phone: {
-                    validators: {
-                        notEmpty: {
-                            message: '手机号码不能为空'
-                        }
-                    }
-                }
-			}
+            }
         });
 	});
 	/**
