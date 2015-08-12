@@ -4,6 +4,7 @@
 	<mapping path="/manage" decorator="/WEB-INF/layout/mainLayout.jsp"/>
 	<mapping path="/manage/user" decorator="/WEB-INF/layout/mainLayout.jsp"/>
 	<mapping path="/manage/permission" decorator="/WEB-INF/layout/mainLayout.jsp"/>
+	<mapping path="/manage/role" decorator="/WEB-INF/layout/mainLayout.jsp"/>
 	
 	<!-- 排除，不进行装饰的路径 -->
 	<mapping path="/images/*" exclude="true"/>

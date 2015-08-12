@@ -4,7 +4,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8">
-    <title>权限列表</title>
+    <title>角色列表</title>
     <link href="${ctx}/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="${ctx}/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
     <link href="${ctx}/plugins/validator/bootstrapValidator.min.css" rel="stylesheet" type="text/css" />
@@ -47,11 +47,11 @@
           
     <div class="box box-primary">
       <div class="box-header with-border">
-        <h3 class="box-title">权限列表</h3>
+        <h3 class="box-title">角色列表</h3>
         <div class="box-tools pull-right">
           <form class="form-inline">
 			  <div class="form-group form-group-sm">
-			    <label class="control-label" for="inputUsername">权限名称</label>
+			    <label class="control-label" for="inputUsername">角色名称</label>
 			    <input type="text" class="form-control" id="inputUsername">
 			  </div>
 			  <div class="form-group form-group-sm">
@@ -68,8 +68,8 @@
           <thead>
 	        <tr>
 	          <th width="10">#</th>
-	          <th>权限名称</th>
-	          <th>权限URL</th>
+	          <th>角色名称</th>
+	          <th>角色状态</th>
 	          <th width="110">创建时间</th>
 	          <th width="50"></th>
 	        </tr>
@@ -94,20 +94,14 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">权限新增</h4>
+            <h4 class="modal-title">角色新增</h4>
           </div>
           <div class="modal-body">
             <div class="alert alert-danger alertMessage" role="alert"></div>
             <div class="form-group">
-			  <label for="inputNameAdd" class="col-sm-3 control-label">权限名称</label>
+			  <label for="inputNameAdd" class="col-sm-3 control-label">角色名称</label>
 			  <div class="col-sm-7">
 			    <input type="text" class="form-control" name="name" id="inputNameAdd">
-			  </div>
-			</div>
-			<div class="form-group">
-			  <label for="inputUrlAdd" class="col-sm-3 control-label">权限URL</label>
-			  <div class="col-sm-7">
-			    <input type="text" class="form-control" name="url" id="inputUrlAdd">
 			  </div>
 			</div>
           </div>
@@ -208,7 +202,7 @@
     		"processing": true,
             "serverSide": true,
             "ajax": {
-				"url": "${ctx}/manage/permission/list",
+				"url": "${ctx}/manage/role/list",
 				"type": "POST"
 			},
 			"order": [[ 1, "desc" ]],
