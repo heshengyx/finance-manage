@@ -14,7 +14,6 @@ import com.myself.common.message.JsonMessage;
 import com.myself.common.message.JsonResult;
 import com.myself.finance.entity.User;
 import com.myself.finance.page.IPage;
-import com.myself.finance.param.UserParam;
 import com.myself.finance.param.UserQueryParam;
 import com.myself.finance.service.IUserService;
 
@@ -48,7 +47,7 @@ public class UserManageController extends BaseController {
 	
 	@RequestMapping("/getData")
 	@ResponseBody
-	public Object getData(UserParam param) {
+	public Object getData(User param) {
 		JsonMessage jMessage = new JsonMessage();
 		User data = null;
 		try {
@@ -68,7 +67,7 @@ public class UserManageController extends BaseController {
 	
 	@RequestMapping("/update")
 	@ResponseBody
-	public Object update(UserParam param) {
+	public Object update(User param) {
 		JsonMessage jMessage = new JsonMessage();
 		try {
 			userService.update(param);
@@ -86,7 +85,7 @@ public class UserManageController extends BaseController {
 	
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Object delete(UserParam param) {
+	public Object delete(User param) {
 		JsonMessage jMessage = new JsonMessage();
 		try {
 			userService.delete(param);

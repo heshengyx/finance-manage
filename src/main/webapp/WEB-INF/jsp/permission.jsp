@@ -58,7 +58,8 @@
 			    <label class="control-label" for="inputDaterange">创建时间</label>
 			    <input type="text" class="form-control" id="inputDaterange" style="width:150px;">
 			  </div>
-			  <button type="button" class="btn btn-sm btn-default" id="search-btn"><i class="fa fa-search"></i></button>
+			  <button type="button" class="btn btn-sm btn-default" id="btn-search"><i class="fa fa-search"></i></button>
+			  <button type="button" class="btn btn-sm btn-primary" id="btn-add"><i class="fa fa-plus"></i></button>
 		  </form>
         </div>
       </div><!-- /.box-header -->
@@ -68,6 +69,7 @@
 	        <tr>
 	          <th width="10">#</th>
 	          <th>权限名称</th>
+	          <th>权限URL</th>
 	          <th width="110">创建时间</th>
 	          <th width="50"></th>
 	        </tr>
@@ -86,27 +88,59 @@
       </div> -->
     </div><!-- /.box -->
     
+    <div class="modal fade" id="modalAdd">
+      <div class="modal-dialog">
+        <form id="formAdd" class="form-horizontal" action="${ctx}/manage/permission/save">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">权限新增</h4>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-danger alertMessage" role="alert"></div>
+            <div class="form-group">
+			  <label for="inputNameAdd" class="col-sm-3 control-label">权限名称</label>
+			  <div class="col-sm-7">
+			    <input type="text" class="form-control" name="name" id="inputNameAdd">
+			  </div>
+			</div>
+			<div class="form-group">
+			  <label for="inputUrlAdd" class="col-sm-3 control-label">权限URL</label>
+			  <div class="col-sm-7">
+			    <input type="text" class="form-control" name="url" id="inputUrlAdd">
+			  </div>
+			</div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+            <button type="submit" class="btn btn-primary">保存</button>
+          </div>
+        </div><!-- /.modal-content -->
+        </form>
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
     <div class="modal fade" id="modalEdit">
       <div class="modal-dialog">
-        <form id="formEdit" class="form-horizontal" action="${ctx}/manage/user/update">
+        <form id="formEdit" class="form-horizontal" action="${ctx}/manage/permission/update">
         <input type="hidden" name="id" id="inputDataIdEdit">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">用户编辑</h4>
+            <h4 class="modal-title">权限编辑</h4>
           </div>
           <div class="modal-body">
-            <div class="alert alert-danger" role="alert" id="alertMessage">系统异常</div>
+            <div class="alert alert-danger alertMessage" role="alert"></div>
             <div class="form-group">
-			  <label for="inputUsernameEdit" class="col-sm-3 control-label">用户名</label>
+			  <label for="inputNameEdit" class="col-sm-3 control-label">权限名称</label>
 			  <div class="col-sm-7">
-			    <input type="text" class="form-control" name="username" id="inputUsernameEdit">
+			    <input type="text" class="form-control" name="name" id="inputNameEdit">
 			  </div>
 			</div>
 			<div class="form-group">
-			  <label for="inputPhoneEdit" class="col-sm-3 control-label">手机号码</label>
+			  <label for="inputUrlEdit" class="col-sm-3 control-label">权限URL</label>
 			  <div class="col-sm-7">
-			    <input type="text" class="form-control" name="phone" id="inputPhoneEdit">
+			    <input type="text" class="form-control" name="url" id="inputUrlEdit">
 			  </div>
 			</div>
           </div>
@@ -144,7 +178,6 @@
 	<script src="${ctx}/plugins/validator/bootstrapValidator.min.js" type="text/javascript"></script>
 	<script>
 	$(document).ready(function() {
-		//$('#alertMessage').hide();
 		$('#inputDaterange').daterangepicker({
 			"locale": {
 				"format": "YYYY-MM-DD",
@@ -188,7 +221,7 @@
 					"render": function(data, type, row) {
 				    	return to_date_hms(data.createTime);
 				    },
-				    "targets": [2]
+				    "targets": [3]
 				},
 				{
 					"searchable": false,
@@ -199,12 +232,13 @@
 		                content += "<a href=\"javascript:void(0);\" onclick=\"dataDelete('" + data.id + "')\">删除</a>";
 		            	return content;
 				    },
-				    "targets": [3]
+				    "targets": [4]
 				}
 			],
 			"columns": [
 	            { "data": null },
 	            { "data": "name" },
+	            { "data": "url" },
 	            { "data": null },
 	            { "data": null }
 	        ]
@@ -214,7 +248,7 @@
 	            cell.innerHTML = i+1;
 	        } );
 	    } ).draw();
-		$("#search-btn").click(function() {
+		$("#btn-search").click(function() {
 	        var search = "?random=" + Math.random();
 	        search += "&username=" + $("#inputUsername").val();
 	        search += "&daterange=" + $("#inputDaterange").val();
@@ -224,11 +258,29 @@
 			submitHandler: function(validator, form, submitButton) {
 				$.post(form.attr('action'), form.serialize(), function(result) {
 					if (result.code == '500') {
-						$('#alertMessage').text(result.message);
-						$('#alertMessage').show();
+						$('.alertMessage').text(result.message);
+						$('.alertMessage').show();
 						validator.disableSubmitButtons(false);
 					} else {
 		                $("#modalEdit").modal("hide");
+		                table.ajax.reload();
+					}
+			    }, 'json');
+            }
+        });
+		$("#btn-add").click(function() {
+			$('.alertMessage').hide();
+			$("#modalAdd").modal("show");
+		});
+		$('#formAdd').bootstrapValidator({
+			submitHandler: function(validator, form, submitButton) {
+				$.post(form.attr('action'), form.serialize(), function(result) {
+					if (result.code == '500') {
+						$('.alertMessage').text(result.message);
+						$('.alertMessage').show();
+						validator.disableSubmitButtons(false);
+					} else {
+		                $("#modalAdd").modal("hide");
 		                table.ajax.reload();
 					}
 			    }, 'json');
@@ -239,10 +291,10 @@
      * 编辑数据
      */
     function dataEdit(id) {
-		$('#alertMessage').hide();
-		$('#alertMessage').text("");
+		$('.alertMessage').hide();
+		$('.alertMessage').text("");
 		$('#formEdit').data('bootstrapValidator').resetForm();
-		var url = "${ctx}/manage/user/getData";
+		var url = "${ctx}/manage/permission/getData";
 		var params = {
 			id: id
 		};
@@ -252,8 +304,8 @@
             	$("#modalDanger").modal("show");
   			} else {
   				$("#inputDataIdEdit").val(result.data.id);
-  				$("#inputUsernameEdit").val(result.data.username);
-  				$("#inputPhoneEdit").val(result.data.phone);
+  				$("#inputNameEdit").val(result.data.name);
+  				$("#inputUrlEdit").val(result.data.url);
   				$("#modalEdit").modal("show");
   			}
   	    }, 'json');
@@ -263,7 +315,7 @@
      * 删除数据
      */
     function dataDelete(id) {
-    	var url = "${ctx}/manage/user/delete";
+    	var url = "${ctx}/manage/permission/delete";
 		var params = {
 			id: id
 		};
