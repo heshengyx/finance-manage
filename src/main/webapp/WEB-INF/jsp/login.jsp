@@ -13,7 +13,7 @@
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" /> -->
     <!-- Theme style -->
     <link href="${ctx}/css/style.min.css" rel="stylesheet" type="text/css" />
-    <link href="${ctx}/css/bootstrapValidator.min.css" rel="stylesheet">
+    <link href="${ctx}/plugins/validator/bootstrapValidator.min.css" rel="stylesheet">
     <!-- iCheck -->
     <%-- <link href="${ctx}/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css" /> --%>
 
@@ -55,7 +55,7 @@
     <script src="${ctx}/js/bootstrap.min.js" type="text/javascript"></script>
     <!-- iCheck -->
     <%-- <script src="${ctx}/plugins/iCheck/icheck.min.js" type="text/javascript"></script> --%>
-    <script src="${ctx}/js/bootstrapValidator.min.js" type="text/javascript"></script>
+    <script src="${ctx}/plugins/validator/bootstrapValidator.min.js" type="text/javascript"></script>
     <script>
     $(function () {
         /* $('input').iCheck({

@@ -16,6 +16,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
@@ -27,6 +29,9 @@ import com.myself.finance.service.IRoleService;
 import com.myself.finance.service.IUserService;
 
 public class SecurityRealm extends AuthorizingRealm {
+	
+	private final static Logger logger = LoggerFactory
+			.getLogger(SecurityRealm.class);
 
 	@Autowired
 	private IUserService userService;
@@ -52,12 +57,15 @@ public class SecurityRealm extends AuthorizingRealm {
 		if (null != user) {
 			List<Role> roles = roleService.queryRolesByUserId(user.getId());
 			if (!CollectionUtils.isEmpty(roles)) {
+				logger.info("用户[{}]拥有的角色", new Object[]{user.getUsername()});
 				for (Role role : roles) {
+					logger.info("  角色名称[{}]", new Object[]{role.getName()});
 					roleList.add(role.getName());
 					List<Permission> permissions = permissionService.queryPermissionsByRoleId(role.getId());
 					if (!CollectionUtils.isEmpty(permissions)) {
 						for (Permission permission : permissions) {
 							if (!StringUtils.isEmpty(permission.getName())) {
+								logger.info("    权限名称[{}:{}]", new Object[]{permission.getName(), permission.getUrl()});
 								permissionList.add(permission.getName());
 							}
 						}

@@ -11,9 +11,11 @@
     <!-- Bootstrap 3.3.4 -->
     <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- FontAwesome 4.3.0 -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" /> -->
+    <link href="${ctx}/plugins/style/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons 2.0.0 -->
-    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" /> -->
+    <link href="${ctx}/plugins/style/ionicons.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
     <link href="${ctx}/css/style.min.css" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -336,7 +338,9 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="${ctx}/manage/permission"><i class="fa fa-circle-o"></i> 权限列表</a></li>
+                <shiro:hasPermission name="manage:permission">
                 <li><a href="${ctx}/manage/role"><i class="fa fa-circle-o"></i> 角色列表</a></li>
+                </shiro:hasPermission>
               </ul>
             </li>
             <li>

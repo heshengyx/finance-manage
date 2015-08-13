@@ -90,7 +90,7 @@
     
     <div class="modal fade" id="modalAdd">
       <div class="modal-dialog">
-        <form id="formAdd" class="form-horizontal" action="${ctx}/manage/permission/save">
+        <form id="formAdd" class="form-horizontal" action="${ctx}/manage/role/save">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -116,25 +116,19 @@
     
     <div class="modal fade" id="modalEdit">
       <div class="modal-dialog">
-        <form id="formEdit" class="form-horizontal" action="${ctx}/manage/permission/update">
+        <form id="formEdit" class="form-horizontal" action="${ctx}/manage/role/update">
         <input type="hidden" name="id" id="inputDataIdEdit">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">权限编辑</h4>
+            <h4 class="modal-title">角色编辑</h4>
           </div>
           <div class="modal-body">
             <div class="alert alert-danger alertMessage" role="alert"></div>
             <div class="form-group">
-			  <label for="inputNameEdit" class="col-sm-3 control-label">权限名称</label>
+			  <label for="inputNameEdit" class="col-sm-3 control-label">角色名称</label>
 			  <div class="col-sm-7">
 			    <input type="text" class="form-control" name="name" id="inputNameEdit">
-			  </div>
-			</div>
-			<div class="form-group">
-			  <label for="inputUrlEdit" class="col-sm-3 control-label">权限URL</label>
-			  <div class="col-sm-7">
-			    <input type="text" class="form-control" name="url" id="inputUrlEdit">
 			  </div>
 			</div>
           </div>
@@ -233,7 +227,7 @@
 			"columns": [
 	            { "data": null },
 	            { "data": "name" },
-	            { "data": "url" },
+	            { "data": "status" },
 	            { "data": null },
 	            { "data": null }
 	        ]
@@ -291,7 +285,7 @@
 		$('.alertMessage').hide();
 		$('.alertMessage').text("");
 		$('#formEdit').data('bootstrapValidator').resetForm();
-		var url = "${ctx}/manage/permission/getData";
+		var url = "${ctx}/manage/role/getData";
 		var params = {
 			id: id
 		};
@@ -315,7 +309,7 @@
     	if (!confirm("确定要删除吗?")) {
     		return;
     	}
-    	var url = "${ctx}/manage/permission/delete";
+    	var url = "${ctx}/manage/role/delete";
 		var params = {
 			id: id
 		};
