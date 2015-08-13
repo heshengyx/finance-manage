@@ -71,7 +71,7 @@
 	          <th>角色名称</th>
 	          <th>角色状态</th>
 	          <th width="110">创建时间</th>
-	          <th width="20"></th>
+	          <th width="40"></th>
 	        </tr>
 	      </thead>
         </table>
@@ -217,8 +217,9 @@
 				    "orderable": false,
 					"render": function(data, type, row) {
 						var content = "";
-		                content += "<a href=\"javascript:void(0);\" onclick=\"dataEdit('" + data.id + "')\"><i class=\"glyphicon glyphicon-edit\"></i></a>&nbsp;&nbsp;";
-		                content += "<a href=\"javascript:void(0);\" onclick=\"dataDelete('" + data.id + "')\"><i class=\"glyphicon glyphicon-trash\"></i></a>";
+						content += "<a href=\"javascript:void(0);\" onclick=\"dataEdit('" + data.id + "')\" title=\"分配权限\"><i class=\"glyphicon glyphicon-list-alt\"></i></a>&nbsp;&nbsp;";
+		                content += "<a href=\"javascript:void(0);\" onclick=\"dataEdit('" + data.id + "')\" title=\"编辑\"><i class=\"glyphicon glyphicon-edit\"></i></a>&nbsp;&nbsp;";
+		                content += "<a href=\"javascript:void(0);\" onclick=\"dataDelete('" + data.id + "')\" title=\"删除\"><i class=\"glyphicon glyphicon-trash\"></i></a>";
 		            	return content;
 				    },
 				    "targets": [4]
