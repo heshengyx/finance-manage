@@ -195,8 +195,8 @@
 				    "orderable": false,
 					"render": function(data, type, row) {
 						var content = "";
-		                content += "<a href=\"javascript:void(0);\" onclick=\"dataEdit('" + data.id + "')\">编辑</a>&nbsp;";
-		                content += "<a href=\"javascript:void(0);\" onclick=\"dataDelete('" + data.id + "')\">删除</a>";
+		                content += "<a href=\"javascript:void(0);\" onclick=\"dataEdit('" + data.id + "')\"><i class=\"glyphicon glyphicon-edit\"></i></a>&nbsp;";
+		                content += "<a href=\"javascript:void(0);\" onclick=\"dataDelete('" + data.id + "')\"><i class=\"glyphicon glyphicon-trash\"></i></a>";
 		            	return content;
 				    },
 				    "targets": [3]
