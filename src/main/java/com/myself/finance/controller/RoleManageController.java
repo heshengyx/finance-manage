@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.myself.common.exception.ServiceException;
 import com.myself.common.message.JsonMessage;
 import com.myself.common.message.JsonResult;
+import com.myself.finance.data.RoleTreeData;
 import com.myself.finance.entity.Role;
 import com.myself.finance.page.IPage;
 import com.myself.finance.param.RoleQueryParam;
+import com.myself.finance.param.UserRoleParam;
 import com.myself.finance.service.IRoleService;
 
 @Controller
@@ -32,9 +34,47 @@ public class RoleManageController extends BaseController {
 		return "role";
 	}
 	
-	@RequestMapping("/list")
+	@RequestMapping("/tree")
 	@ResponseBody
-	public Object list(RoleQueryParam param) {
+	public Object tree(RoleQueryParam param) {
+		JsonMessage jMessage = new JsonMessage();
+		List<RoleTreeData> datas = null;
+		try {
+			datas = roleService.tree(param);
+			jMessage.setData(datas);
+		} catch (Exception e) {
+			jMessage.setCode(JsonMessage.ERROR_CODE);
+			if (e instanceof ServiceException) {
+				jMessage.setMessage(e.getMessage());
+			} else {
+				jMessage.setMessage("系统异常");
+			}
+			logger.error(jMessage.getMessage(), e);
+		}
+		return jMessage;
+	}
+	
+	@RequestMapping("/saveTree")
+	@ResponseBody
+	public Object saveTree(UserRoleParam param) {
+		JsonMessage jMessage = new JsonMessage();
+		try {
+			roleService.saveUserRoles(param);
+		} catch (Exception e) {
+			jMessage.setCode(JsonMessage.ERROR_CODE);
+			if (e instanceof ServiceException) {
+				jMessage.setMessage(e.getMessage());
+			} else {
+				jMessage.setMessage("系统异常");
+			}
+			logger.error(jMessage.getMessage(), e);
+		}
+		return jMessage;
+	}
+	
+	@RequestMapping("/query")
+	@ResponseBody
+	public Object query(RoleQueryParam param) {
 		IPage<Role> datas = roleService.query(param);
 		
 		JsonResult<Role> jResult = new JsonResult<Role>();

@@ -338,9 +338,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="${ctx}/manage/permission"><i class="fa fa-circle-o"></i> 权限列表</a></li>
-                <shiro:hasPermission name="manage:permission">
                 <li><a href="${ctx}/manage/role"><i class="fa fa-circle-o"></i> 角色列表</a></li>
-                </shiro:hasPermission>
               </ul>
             </li>
             <li>

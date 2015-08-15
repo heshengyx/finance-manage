@@ -64,9 +64,9 @@ public class SecurityRealm extends AuthorizingRealm {
 					List<Permission> permissions = permissionService.queryPermissionsByRoleId(role.getId());
 					if (!CollectionUtils.isEmpty(permissions)) {
 						for (Permission permission : permissions) {
-							if (!StringUtils.isEmpty(permission.getName())) {
-								logger.info("    权限名称[{}:{}]", new Object[]{permission.getName(), permission.getUrl()});
-								permissionList.add(permission.getName());
+							if (!StringUtils.isEmpty(permission.getTag())) {
+								logger.info("    权限名称[{}:{}]", new Object[]{permission.getTag(), permission.getUrl()});
+								permissionList.add(permission.getTag());
 							}
 						}
 					}

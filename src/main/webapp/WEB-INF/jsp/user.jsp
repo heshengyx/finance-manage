@@ -8,6 +8,7 @@
     <link href="${ctx}/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="${ctx}/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
     <link href="${ctx}/plugins/validator/bootstrapValidator.min.css" rel="stylesheet" type="text/css" />
+    <link href="${ctx}/plugins/zTree/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
     <style>
       /* .example-modal .modal {
         position: relative;
@@ -68,8 +69,11 @@
 	        <tr>
 	          <th width="10">#</th>
 	          <th>用户名称</th>
+	          <th>账号</th>
+	          <th>手机</th>
+	          <th>状态</th>
 	          <th width="110">创建时间</th>
-	          <th width="20"></th>
+	          <th width="40"></th>
 	        </tr>
 	      </thead>
         </table>
@@ -96,7 +100,7 @@
             <h4 class="modal-title">用户编辑</h4>
           </div>
           <div class="modal-body">
-            <div class="alert alert-danger" role="alert" id="alertMessage">系统异常</div>
+            <div class="alert alert-danger alertMessage" role="alert"></div>
             <div class="form-group">
 			  <label for="inputUsernameEdit" class="col-sm-3 control-label">用户名</label>
 			  <div class="col-sm-7">
@@ -135,6 +139,28 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    
+    <div class="modal fade" id="modalRole">
+      <div class="modal-dialog">
+        <form id="formRole" class="form-horizontal" action="${ctx}/manage/role/saveTree">
+        <input type="hidden" name="userId" id="inputUserId">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">分配角色</h4>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-danger alertMessage" role="alert"></div>
+            <ul id="tree" class="ztree" style="width:260px; overflow:auto;"></ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+            <button type="submit" class="btn btn-primary">保存</button>
+          </div>
+        </div><!-- /.modal-content -->
+        </form>
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <jscript>
     <script src="${ctx}/js/format.js" type="text/javascript"></script>
 	<script src="${ctx}/plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
@@ -142,6 +168,7 @@
 	<script src="${ctx}/plugins/daterangepicker/moment.min.js" type="text/javascript"></script>
 	<script src="${ctx}/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
 	<script src="${ctx}/plugins/validator/bootstrapValidator.min.js" type="text/javascript"></script>
+	<script src="${ctx}/plugins/zTree/jquery.ztree.all-3.5.min.js" type="text/javascript"></script>
 	<script>
 	$(document).ready(function() {
 		//$('#alertMessage').hide();
@@ -174,7 +201,7 @@
     		"processing": true,
             "serverSide": true,
             "ajax": {
-				"url": "${ctx}/manage/user/list",
+				"url": "${ctx}/manage/user/query",
 				"type": "POST"
 			},
 			"order": [[ 1, "desc" ]],
@@ -188,23 +215,27 @@
 					"render": function(data, type, row) {
 				    	return to_date_hms(data.createTime);
 				    },
-				    "targets": [2]
+				    "targets": [5]
 				},
 				{
 					"searchable": false,
 				    "orderable": false,
 					"render": function(data, type, row) {
 						var content = "";
+						content += "<a href=\"javascript:void(0);\" onclick=\"assignRole('" + data.id + "')\" title=\"分配角色\"><i class=\"glyphicon glyphicon-list-alt\"></i></a>&nbsp;&nbsp;";
 		                content += "<a href=\"javascript:void(0);\" onclick=\"dataEdit('" + data.id + "')\" title=\"编辑\"><i class=\"glyphicon glyphicon-edit\"></i></a>&nbsp;&nbsp;";
 		                content += "<a href=\"javascript:void(0);\" onclick=\"dataDelete('" + data.id + "')\" title=\"删除\"><i class=\"glyphicon glyphicon-trash\"></i></a>";
 		            	return content;
 				    },
-				    "targets": [3]
+				    "targets": [6]
 				}
 			],
 			"columns": [
 	            { "data": null },
 	            { "data": "username" },
+	            { "data": "account" },
+	            { "data": "phone" },
+	            { "data": "status" },
 	            { "data": null },
 	            { "data": null }
 	        ]
@@ -218,14 +249,14 @@
 	        var search = "?random=" + Math.random();
 	        search += "&username=" + $("#inputUsername").val();
 	        search += "&daterange=" + $("#inputDaterange").val();
-	        table.ajax.url("${ctx}/manage/user/list" + search).load();
+	        table.ajax.url("${ctx}/manage/user/query" + search).load();
     	});
 		$('#formEdit').bootstrapValidator({
 			submitHandler: function(validator, form, submitButton) {
 				$.post(form.attr('action'), form.serialize(), function(result) {
 					if (result.code == '500') {
-						$('#alertMessage').text(result.message);
-						$('#alertMessage').show();
+						$('.alertMessage').text(result.message);
+						$('.alertMessage').show();
 						validator.disableSubmitButtons(false);
 					} else {
 		                $("#modalEdit").modal("hide");
@@ -250,13 +281,68 @@
                 }
 			}
         });
+		//formRole
+		$('#formRole').bootstrapValidator({
+			submitHandler: function(validator, form, submitButton) {
+				var zTree = $.fn.zTree.getZTreeObj("tree");
+				var nodes = zTree.getCheckedNodes(true);
+				alert(nodes);
+				/* $.post(form.attr('action'), form.serialize(), function(result) {
+					if (result.code == '500') {
+						$('.alertMessage').text(result.message);
+						$('.alertMessage').show();
+						validator.disableSubmitButtons(false);
+					} else {
+		                $("#modalRole").modal("hide");
+		                table.ajax.reload();
+					}
+			    }, 'json'); */
+            }
+        });
 	});
+	
+	/**
+     * 分配权限
+     */
+    function assignRole(id) {
+    	$('#inputUserId').val(id);
+    	$('.alertMessage').hide();
+		$('.alertMessage').text("");
+		var url = "${ctx}/manage/role/tree";
+		var params = {
+			userId: id
+		};
+    	$.post(url, params, function(result) {
+  			if ("500" == result.code) {
+  				$("#modalMessage").text(result.message);
+            	$("#modalDanger").modal("show");
+  			} else {
+  				var setting = {
+					view: {
+						showLine: true
+					},
+					check: {
+						enable: true,
+						chkStyle: "checkbox" 
+					},
+					data: {
+						simpleData: {
+							enable: false,
+							idKey: "id"
+						}
+					}
+				};
+  				$.fn.zTree.init($("#tree"), setting, result.data);
+  				$("#modalRole").modal("show");
+  			}
+  	    }, 'json');
+	}
 	/**
      * 编辑数据
      */
     function dataEdit(id) {
-		$('#alertMessage').hide();
-		$('#alertMessage').text("");
+		$('.alertMessage').hide();
+		$('.alertMessage').text("");
 		$('#formEdit').data('bootstrapValidator').resetForm();
 		var url = "${ctx}/manage/user/getData";
 		var params = {

@@ -32,9 +32,9 @@ public class UserManageController extends BaseController {
 		return "user";
 	}
 	
-	@RequestMapping("/list")
+	@RequestMapping("/query")
 	@ResponseBody
-	public Object list(UserQueryParam param) {
+	public Object query(UserQueryParam param) {
 		IPage<User> datas = userService.query(param);
 		
 		JsonResult<User> jResult = new JsonResult<User>();

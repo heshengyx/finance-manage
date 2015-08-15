@@ -69,6 +69,7 @@
 	        <tr>
 	          <th width="10">#</th>
 	          <th>权限名称</th>
+	          <th>权限TAG</th>
 	          <th>权限URL</th>
 	          <th width="110">创建时间</th>
 	          <th width="20"></th>
@@ -105,6 +106,12 @@
 			  </div>
 			</div>
 			<div class="form-group">
+			  <label for="inputTagAdd" class="col-sm-3 control-label">权限TAG</label>
+			  <div class="col-sm-7">
+			    <input type="text" class="form-control" name="tag" id="inputTagAdd">
+			  </div>
+			</div>
+			<div class="form-group">
 			  <label for="inputUrlAdd" class="col-sm-3 control-label">权限URL</label>
 			  <div class="col-sm-7">
 			    <input type="text" class="form-control" name="url" id="inputUrlAdd">
@@ -135,6 +142,12 @@
 			  <label for="inputNameEdit" class="col-sm-3 control-label">权限名称</label>
 			  <div class="col-sm-7">
 			    <input type="text" class="form-control" name="name" id="inputNameEdit">
+			  </div>
+			</div>
+			<div class="form-group">
+			  <label for="inputTagEdit" class="col-sm-3 control-label">权限TAG</label>
+			  <div class="col-sm-7">
+			    <input type="text" class="form-control" name="tag" id="inputTagEdit">
 			  </div>
 			</div>
 			<div class="form-group">
@@ -222,7 +235,7 @@
 					"render": function(data, type, row) {
 				    	return to_date_hms(data.createTime);
 				    },
-				    "targets": [3]
+				    "targets": [4]
 				},
 				{
 					"searchable": false,
@@ -233,12 +246,13 @@
 		                content += "<a href=\"javascript:void(0);\" onclick=\"dataDelete('" + data.id + "')\" title=\"删除\"><i class=\"glyphicon glyphicon-trash\"></i></a>";
 		            	return content;
 				    },
-				    "targets": [4]
+				    "targets": [5]
 				}
 			],
 			"columns": [
 	            { "data": null },
 	            { "data": "name" },
+	            { "data": "tag" },
 	            { "data": "url" },
 	            { "data": null },
 	            { "data": null }
@@ -308,6 +322,7 @@
   			} else {
   				$("#inputDataIdEdit").val(result.data.id);
   				$("#inputNameEdit").val(result.data.name);
+  				$("#inputTagEdit").val(result.data.tag);
   				$("#inputUrlEdit").val(result.data.url);
   				$("#modalEdit").modal("show");
   			}

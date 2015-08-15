@@ -42,8 +42,9 @@ public class ChainDefinitionSectionMetaSource implements
         Ini.Section section = ini.getSection(Ini.DEFAULT_SECTION_NAME);  
         if (!CollectionUtils.isEmpty(permissions)) {
 			for (Permission permission : permissions) {
-				if(StringUtils.isNotEmpty(permission.getUrl()) && StringUtils.isNotEmpty(permission.getName())) {
-					section.put(permission.getUrl(),  MessageFormat.format(PREMISSION_STRING, permission.getName()));
+				if(StringUtils.isNotEmpty(permission.getUrl()) && StringUtils.isNotEmpty(permission.getTag())) {
+					logger.info("系统角色[{}][{}]", new Object[]{permission.getTag(), permission.getUrl()});
+					section.put(permission.getUrl(),  MessageFormat.format(PREMISSION_STRING, permission.getTag()));
 				}
 			}
 		}

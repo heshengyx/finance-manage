@@ -70,6 +70,7 @@
 	        <tr>
 	          <th width="10">#</th>
 	          <th>角色名称</th>
+	          <th>角色TAG</th>
 	          <th>角色状态</th>
 	          <th width="110">创建时间</th>
 	          <th width="40"></th>
@@ -106,6 +107,12 @@
 			    <input type="text" class="form-control" name="name" id="inputNameAdd">
 			  </div>
 			</div>
+			<div class="form-group">
+			  <label for="inputTagAdd" class="col-sm-3 control-label">角色TAG</label>
+			  <div class="col-sm-7">
+			    <input type="text" class="form-control" name="tag" id="inputTagAdd">
+			  </div>
+			</div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
@@ -131,6 +138,12 @@
 			  <label for="inputNameEdit" class="col-sm-3 control-label">角色名称</label>
 			  <div class="col-sm-7">
 			    <input type="text" class="form-control" name="name" id="inputNameEdit">
+			  </div>
+			</div>
+			<div class="form-group">
+			  <label for="inputTagEdit" class="col-sm-3 control-label">角色TAG</label>
+			  <div class="col-sm-7">
+			    <input type="text" class="form-control" name="tag" id="inputTagEdit">
 			  </div>
 			</div>
           </div>
@@ -262,15 +275,11 @@
    		{id:602, pId:6, name:"配合 checkbox 的隐藏", file:"exhide/checkbox"},
    		{id:603, pId:6, name:"配合 radio 的隐藏", file:"exhide/radio"}
    	];
-	alert(1);
 	var table;
 	$(document).ready(function() {
 		var t = $("#tree");
-		alert(t);
 		t = $.fn.zTree.init(t, setting, zNodes);
-		alert(2);
 		var zTree = $.fn.zTree.getZTreeObj("tree");
-		alert(3);
 		zTree.selectNode(zTree.getNodeByParam("id", 101));
 		
 		$('#inputDaterange').daterangepicker({
@@ -302,7 +311,7 @@
     		"processing": true,
             "serverSide": true,
             "ajax": {
-				"url": "${ctx}/manage/role/list",
+				"url": "${ctx}/manage/role/query",
 				"type": "POST"
 			},
 			"order": [[ 1, "desc" ]],
@@ -316,7 +325,7 @@
 					"render": function(data, type, row) {
 				    	return to_date_hms(data.createTime);
 				    },
-				    "targets": [3]
+				    "targets": [4]
 				},
 				{
 					"searchable": false,
@@ -328,12 +337,13 @@
 		                content += "<a href=\"javascript:void(0);\" onclick=\"dataDelete('" + data.id + "')\" title=\"删除\"><i class=\"glyphicon glyphicon-trash\"></i></a>";
 		            	return content;
 				    },
-				    "targets": [4]
+				    "targets": [5]
 				}
 			],
 			"columns": [
 	            { "data": null },
 	            { "data": "name" },
+	            { "data": "tag" },
 	            { "data": "status" },
 	            { "data": null },
 	            { "data": null }
@@ -403,7 +413,7 @@
   			} else {
   				$("#inputDataIdEdit").val(result.data.id);
   				$("#inputNameEdit").val(result.data.name);
-  				$("#inputUrlEdit").val(result.data.url);
+  				$("#inputTagEdit").val(result.data.tag);
   				$("#modalEdit").modal("show");
   			}
   	    }, 'json');
