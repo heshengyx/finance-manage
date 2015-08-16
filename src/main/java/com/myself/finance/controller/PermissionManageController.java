@@ -72,6 +72,19 @@ public class PermissionManageController extends BaseController {
 		return jMessage;
 	}
 	
+	@RequestMapping("/list")
+	@ResponseBody
+	public Object list(PermissionQueryParam param) {
+		List<Permission> datas = permissionService.list(param);
+		
+		JsonResult<Permission> jResult = new JsonResult<Permission>();
+		jResult.setDraw(param.getDraw());
+		jResult.setRecordsTotal(datas.size());
+		jResult.setRecordsFiltered(datas.size());
+		jResult.setData(datas);
+		return jResult;
+	}
+	
 	@RequestMapping("/query")
 	@ResponseBody
 	public Object query(PermissionQueryParam param) {

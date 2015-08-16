@@ -10,6 +10,7 @@
     <link href="${ctx}/plugins/validator/bootstrapValidator.min.css" rel="stylesheet" type="text/css" />
     <link href="${ctx}/plugins/zTree/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
     <link href="${ctx}/plugins/treetable/jquery.treetable.css" rel="stylesheet" type="text/css" />
+    <link href="${ctx}/plugins/treetable/jquery.treetable.theme.default.css" rel="stylesheet" type="text/css" />
     <style>
       /* .example-modal .modal {
         position: relative;
@@ -66,10 +67,9 @@
         </div>
       </div><!-- /.box-header -->
       <div class="box-body">
-        <table class="table table-bordered table-hover" id="table-list">
+        <table class="table table-bordered table-hover treetable" id="table-list">
           <thead>
 	        <tr>
-	          <th width="10">#</th>
 	          <th>权限名称</th>
 	          <th>权限TAG</th>
 	          <th>权限URL</th>
@@ -334,6 +334,7 @@
 			}
 		};
 		$("#example-basic").treetable(options);
+		
 		var t = $("#tree");
 		t = $.fn.zTree.init(t, setting, zNodes);
 		var zTree = $.fn.zTree.getZTreeObj("tree");
@@ -368,21 +369,16 @@
     		"processing": true,
             "serverSide": true,
             "ajax": {
-				"url": "${ctx}/manage/permission/query",
+				"url": "${ctx}/manage/permission/list",
 				"type": "POST"
 			},
 			"order": [[ 1, "desc" ]],
 			"columnDefs": [
 				{
-				    "searchable": false,
-				    "orderable": false,
-				    "targets": 0
-				},
-				{
 					"render": function(data, type, row) {
 				    	return to_date_hms(data.createTime);
 				    },
-				    "targets": [4]
+				    "targets": [3]
 				},
 				{
 					"searchable": false,
@@ -391,25 +387,53 @@
 						var content = "";
 		                content += "<a href=\"javascript:void(0);\" onclick=\"dataEdit('" + data.id + "')\" title=\"编辑\"><i class=\"glyphicon glyphicon-edit\"></i></a>&nbsp;&nbsp;";
 		                content += "<a href=\"javascript:void(0);\" onclick=\"dataDelete('" + data.id + "')\" title=\"删除\"><i class=\"glyphicon glyphicon-trash\"></i></a>";
+		                content += "<span class=\"parentId\">" + data.id + ";" + data.parentId + "</span>";
 		            	return content;
 				    },
-				    "targets": [5]
+				    "targets": [4]
 				}
 			],
 			"columns": [
-	            { "data": null },
 	            { "data": "name" },
 	            { "data": "tag" },
 	            { "data": "url" },
 	            { "data": null },
 	            { "data": null }
-	        ]
+	        ],
+	        initComplete : function() {
+	        	/* var api = this.api();
+	        	alert(api);
+	        	api.$('td').click( function () {
+	                api.search( this.innerHTML ).draw();
+	                alert($(this).text());
+	            }); */
+	            $('.parentId').css('display', 'none');
+	            $('.parentId').each(function() {
+	            	var parentId = $(this).text();
+	            	var parentIds = parentId.split(";");
+	            	$(this).parent().parent().attr("data-tt-id", parentIds[0]);
+	            	if ("null" != parentIds[1]) {
+	            		$(this).parent().parent().attr("data-tt-parent-id", parentIds[1]);
+	            	}
+	            })
+	            var options = {
+	    			column: 0,
+	    			expandable: true,
+	    			onNodeExpand: function() {
+	    				//alert(1);
+	    			},
+	    			onNodeCollapse: function() {
+	    				//alert(2);
+	    			}
+	    		};
+	    		$("#table-list").treetable(options);
+	        }
     	});
-		table.on( 'order.dt search.dt', function () {
+		/* table.on( 'order.dt search.dt', function () {
 			table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
 	            cell.innerHTML = i+1;
 	        } );
-	    } ).draw();
+	    } ).draw(); */
 		$("#btn-search").click(function() {
 	        var search = "?random=" + Math.random();
 	        search += "&username=" + $("#inputUsername").val();
