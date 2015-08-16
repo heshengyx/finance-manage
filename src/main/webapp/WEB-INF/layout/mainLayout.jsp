@@ -337,8 +337,12 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="${ctx}/manage/permission"><i class="fa fa-circle-o"></i> 权限列表</a></li>
-                <li><a href="${ctx}/manage/role"><i class="fa fa-circle-o"></i> 角色列表</a></li>
+              	<shiro:hasPermission name="permission:query">
+            	<li><a href="${ctx}/manage/permission"><i class="fa fa-circle-o"></i> 权限列表</a></li>
+              	</shiro:hasPermission>
+              	<shiro:hasPermission name="role:query">
+               	<li><a href="${ctx}/manage/role"><i class="fa fa-circle-o"></i> 角色列表</a></li>
+                </shiro:hasPermission>
               </ul>
             </li>
             <li>

@@ -151,7 +151,8 @@
           </div>
           <div class="modal-body">
             <div class="alert alert-danger alertMessage" role="alert"></div>
-            <ul id="tree" class="ztree" style="width:260px; overflow:auto;"></ul>
+            <ul id="tree" class="ztree"></ul>
+            <div id="inputHidden"></div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
@@ -284,19 +285,23 @@
 		//formRole
 		$('#formRole').bootstrapValidator({
 			submitHandler: function(validator, form, submitButton) {
+				$('#inputHidden').html("");
+				var inputHidden = "";
 				var zTree = $.fn.zTree.getZTreeObj("tree");
 				var nodes = zTree.getCheckedNodes(true);
-				alert(nodes);
-				/* $.post(form.attr('action'), form.serialize(), function(result) {
+				for(var i=0; i<nodes.length; i++) {
+					inputHidden += "<input type=\"hidden\" name=\"roleId\" value=\"" + nodes[i].id + "\" ><br>";
+				}
+				$('#inputHidden').html(inputHidden);
+				$.post(form.attr('action'), form.serialize(), function(result) {
 					if (result.code == '500') {
 						$('.alertMessage').text(result.message);
 						$('.alertMessage').show();
-						validator.disableSubmitButtons(false);
 					} else {
 		                $("#modalRole").modal("hide");
-		                table.ajax.reload();
 					}
-			    }, 'json'); */
+					validator.disableSubmitButtons(false);
+			    }, 'json');
             }
         });
 	});

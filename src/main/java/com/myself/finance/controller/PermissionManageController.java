@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.myself.common.exception.ServiceException;
 import com.myself.common.message.JsonMessage;
 import com.myself.common.message.JsonResult;
+import com.myself.finance.data.PermissionTreeData;
 import com.myself.finance.entity.Permission;
 import com.myself.finance.page.IPage;
 import com.myself.finance.param.PermissionQueryParam;
+import com.myself.finance.param.RolePermissionParam;
 import com.myself.finance.service.IPermissionService;
 
 @Controller
@@ -32,9 +34,47 @@ public class PermissionManageController extends BaseController {
 		return "permission";
 	}
 	
-	@RequestMapping("/list")
+	@RequestMapping("/tree")
 	@ResponseBody
-	public Object list(PermissionQueryParam param) {
+	public Object tree(PermissionQueryParam param) {
+		JsonMessage jMessage = new JsonMessage();
+		List<PermissionTreeData> datas = null;
+		try {
+			datas = permissionService.tree(param);
+			jMessage.setData(datas);
+		} catch (Exception e) {
+			jMessage.setCode(JsonMessage.ERROR_CODE);
+			if (e instanceof ServiceException) {
+				jMessage.setMessage(e.getMessage());
+			} else {
+				jMessage.setMessage("系统异常");
+			}
+			logger.error(jMessage.getMessage(), e);
+		}
+		return jMessage;
+	}
+	
+	@RequestMapping("/saveTree")
+	@ResponseBody
+	public Object saveTree(RolePermissionParam param) {
+		JsonMessage jMessage = new JsonMessage();
+		try {
+			permissionService.saveRolePermissions(param);
+		} catch (Exception e) {
+			jMessage.setCode(JsonMessage.ERROR_CODE);
+			if (e instanceof ServiceException) {
+				jMessage.setMessage(e.getMessage());
+			} else {
+				jMessage.setMessage("系统异常");
+			}
+			logger.error(jMessage.getMessage(), e);
+		}
+		return jMessage;
+	}
+	
+	@RequestMapping("/query")
+	@ResponseBody
+	public Object query(PermissionQueryParam param) {
 		IPage<Permission> datas = permissionService.query(param);
 		
 		JsonResult<Permission> jResult = new JsonResult<Permission>();
