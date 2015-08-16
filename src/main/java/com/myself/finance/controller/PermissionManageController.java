@@ -26,6 +26,7 @@ public class PermissionManageController extends BaseController {
 	private final static Logger logger = LoggerFactory
 			.getLogger(PermissionManageController.class);
 	
+	
 	@Autowired
 	private IPermissionService permissionService;
 	
