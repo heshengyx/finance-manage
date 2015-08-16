@@ -171,5 +171,4 @@ public class PermissionManageController extends BaseController {
 		}
 		return jMessage;
 	}
-	
 }
