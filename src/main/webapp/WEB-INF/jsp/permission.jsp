@@ -9,6 +9,7 @@
     <link href="${ctx}/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
     <link href="${ctx}/plugins/validator/bootstrapValidator.min.css" rel="stylesheet" type="text/css" />
     <link href="${ctx}/plugins/zTree/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+    <link href="${ctx}/plugins/treetable/jquery.treetable.css" rel="stylesheet" type="text/css" />
     <style>
       /* .example-modal .modal {
         position: relative;
@@ -76,6 +77,34 @@
 	          <th width="20"></th>
 	        </tr>
 	      </thead>
+        </table>
+        
+        <table class="table table-bordered table-hover" id="example-basic">
+        <caption>Basic jQuery treetable Example</caption>
+        <thead>
+          <tr>
+            <th>Tree column</th>
+            <th>Additional data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-tt-id="1">
+            <td>Node 1: Click on the icon in front of me to expand this branch.</td>
+            <td>I live in the second column.</td>
+          </tr>
+          <tr data-tt-id="1.1" data-tt-parent-id="1">
+            <td>Node 1.1: Look, I am a table row <em>and</em> I am part of a tree!</td>
+            <td>Interesting.</td>
+          </tr>
+          <tr data-tt-id="1.1.1" data-tt-parent-id="1.1">
+            <td>Node 1.1.1: I am part of the tree too!</td>
+            <td>That's it!</td>
+          </tr>
+          <tr data-tt-id="2">
+            <td>Node 2: I am another root node, but without children</td>
+            <td>Hurray!</td>
+          </tr>
+        </tbody>
         </table>
       </div><!-- /.box-body -->
       
@@ -192,6 +221,7 @@
 	<script src="${ctx}/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
 	<script src="${ctx}/plugins/validator/bootstrapValidator.min.js" type="text/javascript"></script>
 	<script src="${ctx}/plugins/zTree/jquery.ztree.all-3.5.min.js" type="text/javascript"></script>
+	<script src="${ctx}/plugins/treetable/jquery.treetable.js" type="text/javascript"></script>
 	<script>
 	var zTree;
 	var setting = {
@@ -293,6 +323,17 @@
    	]; */
 	var table;
 	$(document).ready(function() {
+		var options = {
+			column: 0,
+			expandable: true,
+			onNodeExpand: function() {
+				alert(1);
+			},
+			onNodeCollapse: function() {
+				alert(2);
+			}
+		};
+		$("#example-basic").treetable(options);
 		var t = $("#tree");
 		t = $.fn.zTree.init(t, setting, zNodes);
 		var zTree = $.fn.zTree.getZTreeObj("tree");
