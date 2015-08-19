@@ -385,6 +385,7 @@
     function dataEdit(id) {
 		$('.alertMessage').hide();
 		$('.alertMessage').text("");
+		$('#inputHidden').html("");
 		$('#formEdit').data('bootstrapValidator').resetForm();
 		var url = "${ctx}/manage/role/getData";
 		var params = {

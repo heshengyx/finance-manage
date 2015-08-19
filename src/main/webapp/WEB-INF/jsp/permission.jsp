@@ -387,7 +387,7 @@
 						var content = "";
 		                content += "<a href=\"javascript:void(0);\" onclick=\"dataEdit('" + data.id + "')\" title=\"编辑\"><i class=\"glyphicon glyphicon-edit\"></i></a>&nbsp;&nbsp;";
 		                content += "<a href=\"javascript:void(0);\" onclick=\"dataDelete('" + data.id + "')\" title=\"删除\"><i class=\"glyphicon glyphicon-trash\"></i></a>";
-		                content += "<span class=\"parentId\">" + data.id + ";" + data.parentId + "</span>";
+		                content += "<span class=\"parentId\" style=\"display:none\">" + data.id + ";" + data.parentId + "</span>";
 		            	return content;
 				    },
 				    "targets": [4]
@@ -407,7 +407,6 @@
 	                api.search( this.innerHTML ).draw();
 	                alert($(this).text());
 	            }); */
-	            $('.parentId').css('display', 'none');
 	            $('.parentId').each(function() {
 	            	var parentId = $(this).text();
 	            	var parentIds = parentId.split(";");
@@ -415,7 +414,7 @@
 	            	if ("null" != parentIds[1]) {
 	            		$(this).parent().parent().attr("data-tt-parent-id", parentIds[1]);
 	            	}
-	            })
+	            });
 	            var options = {
 	    			column: 0,
 	    			expandable: true,
@@ -470,6 +469,7 @@
 					} else {
 		                $("#modalAdd").modal("hide");
 		                table.ajax.reload();
+		                $('.parentId').css('display', 'none');
 					}
 			    }, 'json');
             }
