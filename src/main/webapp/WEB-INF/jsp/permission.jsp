@@ -62,7 +62,7 @@
 			    <input type="text" class="form-control" id="inputDaterange" style="width:150px;">
 			  </div>
 			  <button type="button" class="btn btn-sm btn-default" id="btn-search"><i class="fa fa-search"></i></button>
-			  <button type="button" class="btn btn-sm btn-primary" id="btn-add"><i class="fa fa-plus"></i></button>
+			  <button type="button" class="btn btn-sm btn-primary" id="btn-add" disabled><i class="fa fa-plus"></i></button>
 		  </form>
         </div>
       </div><!-- /.box-header -->
@@ -323,6 +323,9 @@
    	]; */
 	var table;
 	$(document).ready(function() {
+		<shiro:hasPermission name="permission:add">
+		$("#btn-add").removeAttr("disabled");
+		</shiro:hasPermission>
 		var options = {
 			column: 0,
 			expandable: true,
@@ -407,6 +410,7 @@
 	                api.search( this.innerHTML ).draw();
 	                alert($(this).text());
 	            }); */
+	            alert(1);
 	            $('.parentId').each(function() {
 	            	var parentId = $(this).text();
 	            	var parentIds = parentId.split(";");
@@ -437,7 +441,16 @@
 	        var search = "?random=" + Math.random();
 	        search += "&username=" + $("#inputUsername").val();
 	        search += "&daterange=" + $("#inputDaterange").val();
-	        table.ajax.url("${ctx}/manage/permission/query" + search).load();
+	        //table.ajax.url("${ctx}/manage/permission/list" + search).load();
+	        //alert(2);
+	        //table.ajax.reload();
+	        //var args = table.ajax.params();
+	        table.draw();
+	        //console.log("额外传到后台的参数值extra_search为："+args.extra_search);
+	        /* alert(args);
+	        for (var i in args) {
+	        	alert(i + "=" + args[i]);
+	        } */
     	});
 		$('#formEdit').bootstrapValidator({
 			submitHandler: function(validator, form, submitButton) {
