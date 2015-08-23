@@ -46,8 +46,7 @@
           </div>/.input group
         </div>/.form group
       </div>/.box-body
-    </div>/.box -->
-    <a href="javascript:void(0);" onclick="closper();">折叠</a>      
+    </div>/.box -->     
     <div class="box box-primary">
       <div class="box-header with-border">
         <h3 class="box-title">权限列表</h3>
@@ -80,7 +79,7 @@
         </table>
       </div><!-- /.box-body -->
       
-      <ul id="tree" class="ztree"></ul>
+      <!-- <ul id="tree" class="ztree" style="display:none;"></ul> -->
       <!-- <div class="box-footer clearfix">
         <ul class="pagination pagination-sm no-margin pull-right">
           <li><a href="#">&laquo;</a></li>
@@ -95,6 +94,7 @@
     <div class="modal fade" id="modalAdd">
       <div class="modal-dialog">
         <form id="formAdd" class="form-horizontal" action="${ctx}/manage/permission/save">
+        <input type="hidden" name="parentId" id="inputParentIdAdd">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -102,6 +102,12 @@
           </div>
           <div class="modal-body">
             <div class="alert alert-danger alertMessage" role="alert"></div>
+            <div class="form-group">
+			  <label class="col-sm-3 control-label">父级权限</label>
+			  <div class="col-sm-7">
+			    <ul id="treeAdd" class="ztree"></ul>
+			  </div>
+			</div>
             <div class="form-group">
 			  <label for="inputNameAdd" class="col-sm-3 control-label">权限名称</label>
 			  <div class="col-sm-7">
@@ -133,7 +139,8 @@
     <div class="modal fade" id="modalEdit">
       <div class="modal-dialog">
         <form id="formEdit" class="form-horizontal" action="${ctx}/manage/permission/update">
-        <input type="hidden" name="id" id="inputDataIdEdit">
+        <input type="hidden" name="id" id="inputDataId">
+        <input type="hidden" name="parentId" id="inputParentIdEdit">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -141,6 +148,12 @@
           </div>
           <div class="modal-body">
             <div class="alert alert-danger alertMessage" role="alert"></div>
+            <div class="form-group">
+			  <label class="col-sm-3 control-label">父级权限</label>
+			  <div class="col-sm-7">
+			    <ul id="treeEdit" class="ztree"></ul>
+			  </div>
+			</div>
             <div class="form-group">
 			  <label for="inputNameEdit" class="col-sm-3 control-label">权限名称</label>
 			  <div class="col-sm-7">
@@ -185,48 +198,7 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    
-    <table class="table table-bordered table-hover treetable"
-		id="table-demo">
-		<thead>
-			<tr>
-				<th>权限名称</th>
-				<th>权限TAG</th>
-				<th>权限URL</th>
-				<th width="150">创建时间</th>
-				<th width="80">操作</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr data-tt-id="9cbf0914f39ebc0bd80001">
-				<td>角色管理</td>
-				<td>role:manage</td>
-				<td></td>
-				<td>2015-08-17 12:29:55</td>
-				<td class="text-center"><a href="javascript:void(0);"
-					onclick="dataEdit('9cbf0914f39ebc0bd8000')" title="编辑"><i
-						class="glyphicon glyphicon-edit"></i></a>&nbsp;&nbsp;<a
-					href="javascript:void(0);"
-					onclick="dataDelete('9cbf0914f39ebc0bd8000')" title="删除"><i
-						class="glyphicon glyphicon-trash"></i></a><span class="parentId"
-					style="display: none">9cbf0914f39ebc0bd8000;null</span></td>
-			</tr>
-			<tr data-tt-id="f4234b14f4924e33d80001"
-				data-tt-parent-id="9cbf0914f39ebc0bd80001">
-				<td>角色列表</td>
-				<td>role:list</td>
-				<td>/manage/role</td>
-				<td>2015-08-20 11:26:38</td>
-				<td class="text-center"><a href="javascript:void(0);"
-					onclick="dataEdit('f4234b14f4924e33d8000')" title="编辑"><i
-						class="glyphicon glyphicon-edit"></i></a>&nbsp;&nbsp;<a
-					href="javascript:void(0);"
-					onclick="dataDelete('f4234b14f4924e33d8000')" title="删除"><i
-						class="glyphicon glyphicon-trash"></i></a><span class="parentId"
-					style="display: none">f4234b14f4924e33d8000;9cbf0914f39ebc0bd8000</span></td>
-			</tr>
-		</tbody>
-	</table>
+    <input type="hidden" id="inputParentId">
     <jscript>
     <script src="${ctx}/js/format.js" type="text/javascript"></script>
 	<script src="${ctx}/plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
@@ -237,46 +209,13 @@
 	<script src="${ctx}/plugins/zTree/jquery.ztree.all-3.5.min.js" type="text/javascript"></script>
 	<script src="${ctx}/plugins/treetable/jquery.treetable.js" type="text/javascript"></script>
 	<script>
-	var zTree;
-	var setting = {
-		view: {
-			//dblClickExpand: false,
-			showLine: true,
-			//selectedMulti: false
-		},
-		data: {
-			simpleData: {
-				enable:true,
-				idKey: "id",
-				pIdKey: "parentId",
-				rootPId: ""
-			}
-		}
-	};
-	var zNodes =[
-		{id:"653b8e14f224efa907ffa", parentId:"", name:"[core] 基本功能 演示", open:true},
-		{id:"653b8e14f224efa907ffb", parentId:"653b8e14f224efa907ffa", name:"最简单的树 --  标准 JSON 数据", file:"core/standardData"}
-	];
 	$(document).ready(function() {
 		<shiro:hasPermission name="permission:add">
 		$("#btn-add").removeAttr("disabled");
 		</shiro:hasPermission>
 		dataSearch({});
-		var t = $("#tree");
-		t = $.fn.zTree.init(t, setting, zNodes);
-		var zTree = $.fn.zTree.getZTreeObj("tree");
-		zTree.selectNode(zTree.getNodeByParam("id", 101));
-		var options = {
-				//column: 0,
-				expandable: true,
-				onNodeExpand: function() {
-					//alert(1);
-				},
-				onNodeCollapse: function() {
-					//alert(2);
-				}
-			};
-    		$("#table-demo").treetable(options);
+		permissionTree({});
+		
 		$('#inputDaterange').daterangepicker({
 			"locale": {
 				"format": "YYYY-MM-DD",
@@ -285,13 +224,13 @@
 			}
 		});
 		$("#btn-search").click(function() {
-			var params = {
-				name: $("#inputName").val()
-			};
-			dataSearch({});
+			var params = "";
+			params += "&name=" + $("#inputName").val();
+			window.location.href = "${ctx}/manage/permission?random=" + Math.random() + params;
     	});
 		$('#formEdit').bootstrapValidator({
 			submitHandler: function(validator, form, submitButton) {
+				$('#inputParentIdEdit').val($('#inputParentId').val());
 				$.post(form.attr('action'), form.serialize(), function(result) {
 					if (result.code == '500') {
 						$('.alertMessage').text(result.message);
@@ -299,7 +238,7 @@
 						validator.disableSubmitButtons(false);
 					} else {
 		                $("#modalEdit").modal("hide");
-		                dataSearch({});
+		                window.location.href = "${ctx}/manage/permission?random=" + Math.random();
 					}
 			    }, 'json');
             }
@@ -312,25 +251,52 @@
 		});
 		$('#formAdd').bootstrapValidator({
 			submitHandler: function(validator, form, submitButton) {
+				$('#inputParentIdAdd').val($('#inputParentId').val());
 				$.post(form.attr('action'), form.serialize(), function(result) {
 					if (result.code == '500') {
 						$('.alertMessage').text(result.message);
 						$('.alertMessage').show();
 						validator.disableSubmitButtons(false);
 					} else {
-		                $("#modalAdd").modal("hide");
-		                dataSearch({});
-		                $('.parentId').css('display', 'none');
+		                //$("#modalAdd").modal("hide");
+		                //$('.parentId').css('display', 'none');
+		                window.location.href = "${ctx}/manage/permission?random=" + Math.random();
 					}
 			    }, 'json');
             }
         });
 	});
-	
-	function closper() {
-    		$("#table-list").treetable('collapseAll');
-    		alert(1);
+	function permissionTree(params) {
+		var url = "${ctx}/manage/permission/list";
+    	$.post(url, params, function(result) {
+    		var setting = {
+				view: {
+					showLine: true
+				},
+				data: {
+					key: {
+						url: "xUrl"
+					},
+					simpleData: {
+						enable: true,
+						idKey: "id",
+						pIdKey: "parentId",
+						rootPId: ""
+					}
+				},
+				callback: {
+					onClick: zTreeOnClick
+				}
+			};
+    		var zTree = $.fn.zTree.init($("#treeAdd"), setting, result.data);
+    		zTree.expandAll(true);
+    		zTree = $.fn.zTree.init($("#treeEdit"), setting, result.data);
+    		zTree.expandAll(true);
+  	    }, 'json');
 	}
+	function zTreeOnClick(event, treeId, treeNode) {
+	    $('#inputParentId').val(treeNode.id);
+	};
 	/**
      * 编辑数据
      */
@@ -347,7 +313,8 @@
   				$("#modalMessage").text(result.message);
             	$("#modalDanger").modal("show");
   			} else {
-  				$("#inputDataIdEdit").val(result.data.id);
+  				$("#inputDataId").val(result.data.id);
+  				$("#inputParentId").val(result.data.parentId);
   				$("#inputNameEdit").val(result.data.name);
   				$("#inputTagEdit").val(result.data.tag);
   				$("#inputUrlEdit").val(result.data.url);
@@ -376,7 +343,6 @@
   			}
   	    }, 'json');
     }
-    //class="leaf" style="display: none;"
     function dataSearch(params) {
     	$('#table-list tbody').remove();
     	var url = "${ctx}/manage/permission/list?random=" + Math.random();

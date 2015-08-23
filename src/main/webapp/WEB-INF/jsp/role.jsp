@@ -162,6 +162,7 @@
       <div class="modal-dialog">
         <form id="formPermission" class="form-horizontal" action="${ctx}/manage/permission/saveTree">
         <input type="hidden" name="roleId" id="inputRoleId">
+        <div id="inputHidden"></div>
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -169,8 +170,18 @@
           </div>
           <div class="modal-body">
             <div class="alert alert-danger alertMessage" role="alert"></div>
-            <ul id="tree" class="ztree"></ul>
-            <div id="inputHidden"></div>
+            <div class="form-group">
+			  <label class="col-sm-3 control-label">角色名称</label>
+			  <div class="col-sm-7">
+			    <p class="form-control-static" id="labelName"></p>
+			  </div>
+			</div>
+            <div class="form-group">
+			  <label class="col-sm-3 control-label">权限列表</label>
+			  <div class="col-sm-7">
+			    <ul id="tree" class="ztree"></ul>
+			  </div>
+			</div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
@@ -258,7 +269,7 @@
 				    "orderable": false,
 					"render": function(data, type, row) {
 						var content = "";
-						content += "<a href=\"javascript:void(0);\" onclick=\"assignPermission('" + data.id + "')\" title=\"分配权限\"><i class=\"glyphicon glyphicon-list-alt\"></i></a>&nbsp;&nbsp;";
+						content += "<a href=\"javascript:void(0);\" onclick=\"assignPermission('" + data.id + "', '" + data.name + "')\" title=\"分配权限\"><i class=\"glyphicon glyphicon-list-alt\"></i></a>&nbsp;&nbsp;";
 		                content += "<a href=\"javascript:void(0);\" onclick=\"dataEdit('" + data.id + "')\" title=\"编辑\"><i class=\"glyphicon glyphicon-edit\"></i></a>&nbsp;&nbsp;";
 		                content += "<a href=\"javascript:void(0);\" onclick=\"dataDelete('" + data.id + "')\" title=\"删除\"><i class=\"glyphicon glyphicon-trash\"></i></a>";
 		            	return content;
@@ -344,7 +355,8 @@
             }
         });
 	});
-	function assignPermission(id) {
+	function assignPermission(id, name) {
+		$('#labelName').text(name);
 		$('#inputRoleId').val(id);
     	$('.alertMessage').hide();
 		$('.alertMessage').text("");
