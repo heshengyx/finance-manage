@@ -39,6 +39,14 @@
             <input type="password" name="password" class="form-control" placeholder="密码" />
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <input type="text" name="captcha" class="form-control" placeholder="验证码" />
+            </div><!-- /.col -->
+            <div class="col-xs-6 text-right">
+              <img src="${ctx}/images/kaptcha.jpg" style="height:34px;"/>
+            </div>
+          </div>
           <div class="row">
             <div class="col-xs-4 col-xs-offset-8">
               <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
