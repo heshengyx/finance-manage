@@ -31,8 +31,9 @@
         <p class="login-box-msg">系统后台登录</p>
         <div id="message" class="btn-danger"></div>
         <form action="${ctx}/login/refer" method="post" id="dataForm">
+          <input type="hidden" name="rememberMe" value="true" />
           <div class="form-group has-feedback">
-            <input type="text" name="account" class="form-control" placeholder="账号" />
+            <input type="text" name="username" class="form-control" placeholder="账号" />
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
@@ -84,20 +85,20 @@
   			    }, 'json');
               },
   			fields: {
-  				account: {
-                      validators: {
-                          notEmpty: {
-                              message: '用户名不能为空'
-                          }
-                      }
-                  },
-                  password: {
-                      validators: {
-                          notEmpty: {
-                              message: '密码不能为空'
-                          }
-                      }
-                  }
+  				username: {
+                    validators: {
+                        notEmpty: {
+                            message: '用户名不能为空'
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不能为空'
+                        }
+                    }
+                }
   			}
         });
     });

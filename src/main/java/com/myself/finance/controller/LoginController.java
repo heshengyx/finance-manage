@@ -32,7 +32,7 @@ public class LoginController extends BaseController {
 		try {
 			Subject subject = SecurityUtils.getSubject();
 			UsernamePasswordToken token = new UsernamePasswordToken(
-					user.getAccount(), user.getPassword());
+					user.getUsername(), user.getPassword());
 			// token.setRememberMe(true);
 			subject.login(token);
 			logger.info("用户登录成功");

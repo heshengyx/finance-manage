@@ -37,9 +37,14 @@
 		<!-- anon：它对应的过滤器里面是空的,什么都没做,这里.do和.jsp后面的*表示参数,比方说login.jsp?main这种 -->  
 		<!-- authc：该过滤器下的页面必须验证后才能访问,它是Shiro内置的一个拦截器org.apache.shiro.web.filter.authc.FormAuthenticationFilter -->
 		<property name="filters"> 
-			<map> 
-				<entry key="authc" value-ref="formAuthenticationFilter"/> 
-			</map>
+			<util:map> 
+				<entry key="authc" value-ref="formAuthenticationFilter"/>
+				<!--
+				<entry key="authc">
+					<bean class="com.myself.finance.security.CaptchaFormAuthenticationFilter"/>
+				</entry>
+				-->
+			</util:map>
 		</property>
 		<!--
 		<property name="filterChainDefinitions">  

@@ -85,13 +85,14 @@ public class SecurityRealm extends AuthorizingRealm {
 			AuthenticationToken authcToken) throws AuthenticationException {
 		AuthenticationInfo authcInfo = null;
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
+		//CaptchaUsernamePasswordToken token = (CaptchaUsernamePasswordToken) authcToken;
 
 		User param = new User();
-		param.setAccount(token.getUsername());
-		User user = userService.getData(param);
+		param.setUsername(token.getUsername());
+		User user = userService.getDataByUsername(param);
 		if (null != user) {
 			authcInfo = new SimpleAuthenticationInfo(user,
-					user.getPassword(), user.getAccount());
+					user.getPassword(), user.getUsername());
 			this.setSession("currentUser", user);
 		}
 		return authcInfo;
