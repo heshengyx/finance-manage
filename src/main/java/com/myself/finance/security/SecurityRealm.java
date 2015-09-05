@@ -55,25 +55,40 @@ public class SecurityRealm extends AuthorizingRealm {
 
 		//User user = userService.getByUserName(currentUsername);
 		if (null != user) {
-			List<Role> roles = roleService.queryRolesByUserId(user.getId());
-			if (!CollectionUtils.isEmpty(roles)) {
-				logger.info("用户[{}]拥有的角色", new Object[]{user.getUsername()});
-				for (Role role : roles) {
-					logger.info("  角色名称[{}]", new Object[]{role.getName()});
-					roleList.add(role.getName());
-					List<Permission> permissions = permissionService.queryPermissionsByRoleId(role.getId());
-					if (!CollectionUtils.isEmpty(permissions)) {
-						for (Permission permission : permissions) {
-							if (!StringUtils.isEmpty(permission.getTag())) {
-								logger.info("    权限名称[{}:{}]", new Object[]{permission.getTag(), permission.getUrl()});
-								permissionList.add(permission.getTag());
+			String level = user.getLevel();
+			if ("1".equals(level)) { //超级管理员
+				List<Permission> permissions = permissionService.queryPermissions();
+				if (!CollectionUtils.isEmpty(permissions)) {
+					for (Permission permission : permissions) {
+						if (!StringUtils.isEmpty(permission.getTag())) {
+							logger.info("    权限名称[{}:{}]", new Object[]{permission.getTag(), permission.getUrl()});
+							permissionList.add(permission.getTag());
+						}
+					}
+					simpleAuthorInfo = new SimpleAuthorizationInfo();
+					simpleAuthorInfo.addStringPermissions(permissionList);
+				}
+			} else {
+				List<Role> roles = roleService.queryRolesByUserId(user.getId());
+				if (!CollectionUtils.isEmpty(roles)) {
+					logger.info("用户[{}]拥有的角色", new Object[]{user.getUsername()});
+					for (Role role : roles) {
+						logger.info("  角色名称[{}]", new Object[]{role.getName()});
+						roleList.add(role.getName());
+						List<Permission> permissions = permissionService.queryPermissionsByRoleId(role.getId());
+						if (!CollectionUtils.isEmpty(permissions)) {
+							for (Permission permission : permissions) {
+								if (!StringUtils.isEmpty(permission.getTag())) {
+									logger.info("    权限名称[{}:{}]", new Object[]{permission.getTag(), permission.getUrl()});
+									permissionList.add(permission.getTag());
+								}
 							}
 						}
 					}
+					simpleAuthorInfo = new SimpleAuthorizationInfo();
+					//simpleAuthorInfo.addRoles(roleList);
+					simpleAuthorInfo.addStringPermissions(permissionList);
 				}
-				simpleAuthorInfo = new SimpleAuthorizationInfo();
-				simpleAuthorInfo.addRoles(roleList);
-				simpleAuthorInfo.addStringPermissions(permissionList);
 			}
 		}
 		return simpleAuthorInfo;
