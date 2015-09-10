@@ -73,7 +73,8 @@
 	            /fonts/** = anon
 	            /plugins/** = anon
 	            
-	            /manage = authc
+	            /** = authc
+	            <!--/manage = authc-->
 	            <!--/manage/** = authc --> 
 				<!--/manage/** = perms[admin:manage] --> 
 				<!--/security/logout = logout   --> 
